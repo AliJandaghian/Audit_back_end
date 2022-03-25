@@ -1,0 +1,23 @@
+{
+  "name": "audit_back_end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliJandaghian/Audit_back_end.git"
+  },
+  "author": "Ali Jandaghian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AliJandaghian/Audit_back_end/issues"
+  },
+  "homepage": "https://github.com/AliJandaghian/Audit_back_end#readme",
+  "dependencies": {
+    "mongoose": "^6.2.8",
+    "underscore": "^1.13.2"
+  }
+}
