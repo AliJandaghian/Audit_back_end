@@ -1,12 +1,16 @@
 const debug = require('debug')('app:startup')
+const helmet = require('helmet')
+const config = require('config')
 const express = require('express')
+
+
 
 
 
 const app = express()
 
 app.use(express.json())
-
+app.use(helmet())
 
 
 
