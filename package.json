@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/AliJandaghian/Audit_back_end#readme",
   "dependencies": {
+    "config": "^3.3.7",
     "mongoose": "^6.2.8",
     "underscore": "^1.13.2"
   }
