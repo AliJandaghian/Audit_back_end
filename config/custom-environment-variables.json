@@ -1,3 +1,4 @@
 {
-    "db": "audit_db"
+    "db": "audit_db",
+    "jwtPrivateKey": "auditJwtPrivateKey"
 }

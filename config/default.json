@@ -1,3 +1,4 @@
 {
-    "db": "mongodb://localhost/audit_database"
+    "db": "mongodb://localhost/audit_database",
+    "jwtPrivateKey": "123456"
 }
