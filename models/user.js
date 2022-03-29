@@ -12,17 +12,17 @@ const userSchema = new mongoose.Schema({
     minlenght: 3,
     maxlenght: 50,
   },
-  department: {
-    type: new mongoose.Schema({
-      name: {
-        type: String,
-        required: true,
-        minlenght: 2,
-        maxlenght: 10,
-      },
-    }),
-    required: true,
-  },
+  //   department: {
+  //     type: new mongoose.Schema({
+  //       name: {
+  //         type: String,
+  //         required: true,
+  //         minlenght: 2,
+  //         maxlenght: 10,
+  //       },
+  //     }),
+  //     required: true,
+  //   },
   email: {
     type: String,
     unique: true,
@@ -43,8 +43,6 @@ const userSchema = new mongoose.Schema({
   isAdmin: Boolean,
 });
 
-const User = new mongoose.model("user", userSchema);
-
 userSchema.methods.generateAuthToken = function () {
   return jwt.sign(
     {
@@ -54,9 +52,11 @@ userSchema.methods.generateAuthToken = function () {
       isManager: this.isManager,
       isAdmin: this.isAdmin,
     },
-    config.get("jetPrivateKey")
+    config.get("jwtPrivateKey")
   );
 };
+
+const User = new mongoose.model("user", userSchema);
 
 function validateUser(user) {
   const complexityOptions = {
@@ -72,7 +72,7 @@ function validateUser(user) {
   const schema = Joi.object({
     name: Joi.string().min(3).max(50).required(),
     email: Joi.string().email().required(),
-    departmentId: Joi.objectId().required(),
+    // departmentId: Joi.objectId().required(),
     password: passwordComplexity(complexityOptions),
   });
 
