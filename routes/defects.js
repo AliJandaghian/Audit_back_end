@@ -1,9 +1,12 @@
 const express = require("express");
-const { Defect, validateDefect, defectSchema } = require("../models/defect");
+const { Defect, validatDefect, defectSchema } = require("../models/defect");
+const debug = require('debug')('app:db')
+
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+
   const defects = await Defect.find().sort({ name: 1 });
   res.send(defects);
 });
@@ -13,14 +16,15 @@ router.get("/:id", async (req, res) => {
   res.send(defects);
 });
 
-router.post("/"),
+router.post("/",
   async (req, res) => {
-    const defect = Defect.find((d) => (d.name = req.body.name));
+
+    let defect = await Defect.findOne({name : req.body.name});
     if (defect)
       return res
         .status(400)
         .send("This defect already exist in db, use diffrent abbreviation");
-    const {error} = validateDefect(req.body)
+    const {error} = validatDefect(req.body)
     if (error) return res.status(400).send(error.details[0].message);
     defect = new Defect({
         name : req.body.name,
@@ -30,7 +34,16 @@ router.post("/"),
             email:"alij@fyi.com"
         }
     })
+  
+    try{
+        await defect.save()
+        res.send(defect)
+    }
+   catch(e){
+        for (field in e.errors){
+          res.send(e.errors[field].message)
+        }
+   }
+  });
 
-    defect.save()
-    res.send(defect)
-  };
+module.exports = router

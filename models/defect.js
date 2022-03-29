@@ -6,7 +6,7 @@ const defectSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: function (v) {
-        v.lenght = 2;
+        return v && v.length === 2;
       },
       message: "Defect Name must be 2 charecters long",
     },
@@ -46,8 +46,8 @@ const Defect = mongoose.model("defect", defectSchema);
 
 function validatDefect(defect) {
   const schema = Joi.object({
-    name: Joi.string().lenght(2).require(),
-    description: Joi.string().max(25).require(),
+    name: Joi.string().uppercase().length(2).required(),
+    description: Joi.string().max(25).required(),
   });
   return schema.validate(defect);
 }

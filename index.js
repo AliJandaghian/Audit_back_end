@@ -1,18 +1,19 @@
 const debug = require('debug')('app:startup')
 const helmet = require('helmet')
+const defects = require('./routes/defects')
 const config = require('config')
 const express = require('express')
 
-
-
-
-
 const app = express()
-
-require('./startup/db')()
 
 app.use(express.json())
 app.use(helmet())
+
+
+
+app.use('/api/defects',defects)
+require('./startup/db')()
+
 
 
 
