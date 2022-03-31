@@ -23,8 +23,8 @@ router.post(
   "/",
   [auth, admin, validate(validatDepartment)],
   async (req, res) => {
-    let department = await Department.find({ name: req.body.name });
-    if (!department) return res.status(400).send("Department already exist");
+    let department = await Department.findOne({ name: req.body.name });
+    if (department) return res.status(400).send("Department already exist");
 
     const manager = await User.findById(req.body.managerId);
     if (!manager) return res.status(404).send("No manager found with given ID");
@@ -47,14 +47,19 @@ router.put(
   "/:id",
   [auth, admin, validate(validatDepartment)],
   async (req, res) => {
-    const manager = User.findById(req.body.managerId);
+    let department = await Department.findOne({ name: req.body.name });
+
+    if (department && department._id != req.params.id)
+      return res.status(400).send("Department already exist");
+
+    const manager = await User.findById(req.body.managerId);
     if (!manager) return res.status(404).send("No manager found with given ID");
     if (!manager.isManager)
       return res
         .status(400)
-        .send("Manager roll has not been set for this user ID");
+        .send("Manager roll has not been set for this manager ID");
 
-    const department = await Department.findByIdAndUpdate(
+    department = await Department.findByIdAndUpdate(
       req.params.id,
       {
         name: req.body.name,
@@ -68,5 +73,12 @@ router.put(
     res.send(department);
   }
 );
+
+router.delete('/:id',[auth,admin], async(req,res)=>{
+  const department = await Department.findByIdAndDelete(req.params.id);
+  if (!department)
+    return res.status(404).send("No department found with given Id");
+  res.send(department)
+})
 
 module.exports = router;
