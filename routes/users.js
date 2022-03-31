@@ -1,5 +1,6 @@
 const express = require("express");
 const { User, validateUser, userSchema } = require("../models/user");
+
 const { Department } = require("../models/department");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
@@ -28,6 +29,7 @@ router.post("/", async (req, res) => {
   if (user) return res.status(400).send("User already exist");
 
   const department = await Department.findById(req.body.departmentId);
+
   if (!department)
     return res.status(400).send("No department found with given ID");
 
