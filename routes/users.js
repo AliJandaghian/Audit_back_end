@@ -1,20 +1,23 @@
 const express = require("express");
 const { User, validateUser, userSchema } = require("../models/user");
-const _ = require('lodash')
+const { Department } = require("../models/department");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
+const _ = require("lodash");
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
 
-router.get("/:id", async (req, res) => {
-  const user = await User.findById(req.params.id);
-  if (!user) return res.status(404).send("No user found with given Id");
-  res.send(user);
+router.get("/me", auth, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  res.send(_.pick(user, ["_id", "name", "email", "department"]));
 });
 
-router.get("/", async (req, res) => {
-  const users = await User.find();
-  if (!users) return res.status(404).send("No user found");
-  res.send(users);
+router.get("/", [auth, admin], async (req, res) => {
+  const users = await User.find().sort({ name: 1 });
+  res.send(
+    _.map(users, _.partialRight(_.pick, ["_id", "name", "email", "department"]))
+  );
 });
 
 router.post("/", async (req, res) => {
@@ -24,14 +27,18 @@ router.post("/", async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).send("User already exist");
 
+  const department = await Department.findById(req.body.departmentId);
+  if (!department)
+    return res.status(400).send("No department found with given ID");
+
   user = new User({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    //  department: {
-    //      _id : department._id,
-    //      name : department._id
-    //  }
+    department: {
+      _id: department._id,
+      name: department.name,
+    },
   });
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
@@ -40,8 +47,7 @@ router.post("/", async (req, res) => {
 
   res
     .header("x-auth-token", token)
-    .send(_.pick(user,['_id','name','email']));
+    .send(_.pick(user, ["_id", "name", "email", "department"]));
 });
 
-
-module.exports = router
+module.exports = router;
