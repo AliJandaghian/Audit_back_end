@@ -1,20 +1,21 @@
 const express = require("express");
 const { Defect, validateDefect, defectSchema } = require("../models/defect");
-
+const validateObjectId = require("../middleware/validateObjectId");
+const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", auth,async (req, res) => {
   const defects = await Defect.find().sort({ name: 1 });
   res.send(defects);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id",[auth,validateObjectId], async (req, res) => {
   const defects = await Defect.findById(req.params.id);
   res.send(defects);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   let defect = await Defect.findOne({ name: req.body.name });
   if (defect)
     return res
@@ -41,7 +42,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", [auth,validateObjectId], async (req, res) => {
   const { error } = validateDefect(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   let defect = await Defect.findOne({ name: req.body.name });
@@ -63,7 +64,7 @@ router.put("/:id", async (req, res) => {
   res.send(defect);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",[auth,validateObjectId], async (req, res) => {
   const defect = await Defect.findByIdAndDelete(req.params.id);
   if (!defect) return res.status(404).send("No Defect found with given ID");
   res.send(defect);

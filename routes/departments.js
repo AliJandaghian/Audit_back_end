@@ -4,6 +4,7 @@ const { User } = require("../models/user");
 const auth = require("../middleware/auth");
 const validate = require("../middleware/validate");
 const admin = require("../middleware/admin");
+const validateObjectId = require("../middleware/validateObjectId");
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get("/", auth, async (req, res) => {
   res.send(departments);
 });
 
-router.get("/:id", auth, async (req, res) => {
+router.get("/:id", [auth, validateObjectId], async (req, res) => {
   const department = await Department.findById(req.params.id);
   if (!department)
     return res.status(404).send("No department found with given Id");
@@ -45,7 +46,7 @@ router.post(
 
 router.put(
   "/:id",
-  [auth, admin, validate(validateDepartment)],
+  [auth, admin,validateObjectId, validate(validateDepartment)],
   async (req, res) => {
     let department = await Department.findOne({ name: req.body.name });
     if (department && department._id != req.params.id)
@@ -73,7 +74,7 @@ router.put(
   }
 );
 
-router.delete('/:id',[auth,admin], async(req,res)=>{
+router.delete('/:id',[auth,admin,validateObjectId], async(req,res)=>{
   const department = await Department.findByIdAndDelete(req.params.id);
   if (!department)
     return res.status(404).send("No department found with given Id");

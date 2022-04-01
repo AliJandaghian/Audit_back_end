@@ -4,10 +4,11 @@ const { Department } = require("../models/department");
 const auth = require("../middleware/auth");
 const validate = require("../middleware/validate");
 const manager = require("../middleware/manager");
+const validateObjectId = require("../middleware/validateObjectId");
 
 const router = express.Router();
 
-router.get("/:id", auth, async (req, res) => {
+router.get("/:id", [auth, validateObjectId], async (req, res) => {
   const machine = await Machine.findById(req.params.id);
   if (!machine) return res.status(400).send("No machine found with given ID");
   res.send(machine);
@@ -43,7 +44,7 @@ router.post(
 
 router.put(
   "/:id",
-  [auth, manager, validate(validateMachine)],
+  [auth, manager, validateObjectId, validate(validateMachine)],
   async (req, res) => {
     let machine = await Machine.findOne({ name: req.body.name });
     if (machine && parseInt(req.params.id) != parseInt(machine._id))
@@ -64,6 +65,7 @@ router.put(
       },
       { new: true }
     );
+    if (!machine) return res.status(404).send("No Machine found with given ID");
     res.send(machine);
   }
 );
