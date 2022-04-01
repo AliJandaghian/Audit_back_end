@@ -44,7 +44,7 @@ const defectSchema = new mongoose.Schema({
 
 const Defect = mongoose.model("defect", defectSchema);
 
-function validatDefect(defect) {
+function validateDefect(defect) {
   const schema = Joi.object({
     name: Joi.string().uppercase().length(2).required(),
     description: Joi.string().max(25).required(),
@@ -54,4 +54,4 @@ function validatDefect(defect) {
 
 module.exports.defectSchema = defectSchema;
 module.exports.Defect = Defect;
-module.exports.validatDefect = validatDefect;
+module.exports.validateDefect = validateDefect;

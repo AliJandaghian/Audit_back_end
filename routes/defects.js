@@ -1,6 +1,6 @@
 const express = require("express");
-const { Defect, validatDefect, defectSchema } = require("../models/defect");
-const debug = require("debug")("app:db");
+const { Defect, validateDefect, defectSchema } = require("../models/defect");
+
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
     return res
       .status(400)
       .send("This defect already exist in db, use diffrent abbreviation");
-  const { error } = validatDefect(req.body);
+  const { error } = validateDefect(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   defect = new Defect({
     name: req.body.name,
@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { error } = validatDefect(req.body);
+  const { error } = validateDefect(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   let defect = await Defect.findOne({ name: req.body.name });
 

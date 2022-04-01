@@ -1,5 +1,5 @@
 const express = require("express");
-const { Department, validatDepartment } = require("../models/department");
+const { Department, validateDepartment } = require("../models/department");
 const { User } = require("../models/user");
 const auth = require("../middleware/auth");
 const validate = require("../middleware/validate");
@@ -21,7 +21,7 @@ router.get("/:id", auth, async (req, res) => {
 
 router.post(
   "/",
-  [auth, admin, validate(validatDepartment)],
+  [auth, admin, validate(validateDepartment)],
   async (req, res) => {
     let department = await Department.findOne({ name: req.body.name });
     if (department) return res.status(400).send("Department already exist");
@@ -45,10 +45,9 @@ router.post(
 
 router.put(
   "/:id",
-  [auth, admin, validate(validatDepartment)],
+  [auth, admin, validate(validateDepartment)],
   async (req, res) => {
     let department = await Department.findOne({ name: req.body.name });
-
     if (department && department._id != req.params.id)
       return res.status(400).send("Department already exist");
 

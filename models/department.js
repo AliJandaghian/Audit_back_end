@@ -20,7 +20,7 @@ const departmentSchema = new mongoose.Schema({
 
 const Department = mongoose.model("department", departmentSchema);
 
-function validatDepartment(department) {
+function validateDepartment(department) {
   const schema = Joi.object({
     name: Joi.string().max(50).required(),
     managerId: objectId().required(),
@@ -30,4 +30,4 @@ function validatDepartment(department) {
 
 module.exports.departmentSchema = departmentSchema;
 module.exports.Department = Department;
-module.exports.validatDepartment = validatDepartment;
+module.exports.validateDepartment = validateDepartment;
