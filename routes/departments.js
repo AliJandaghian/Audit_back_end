@@ -74,7 +74,7 @@ router.put(
   }
 );
 
-router.delete('/:id',[auth,admin,validateObjectId], async(req,res)=>{
+router.delete('/:id',[auth,admin], async(req,res)=>{
   const department = await Department.findByIdAndDelete(req.params.id);
   if (!department)
     return res.status(404).send("No department found with given Id");

@@ -18,28 +18,6 @@ const defectSchema = new mongoose.Schema({
     type: String,
     maxlength: 25,
   },
-  dateCreated: {
-    type: Date,
-    required: true,
-    default: Date.now,
-  },
-  createdBy: {
-    type: new mongoose.Schema({
-      name: {
-        type: String,
-        required: true,
-        minlenght: 3,
-        maxlenght: 50,
-      },
-      email: {
-        type: String,
-        Required: true,
-        minlenght: 6,
-        maxlenght: 100,
-      },
-    }),
-    required: true,
-  },
 });
 
 const Defect = mongoose.model("defect", defectSchema);
