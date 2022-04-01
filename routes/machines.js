@@ -70,4 +70,11 @@ router.put(
   }
 );
 
+router.delete('/:id',[auth, manager, validateObjectId], async(req,res)=>{
+    const machine = await Machine.findByIdAndDelete(req.params.id);
+  if (!machine)
+    return res.status(404).send("No machine found with given Id");
+  res.send(machine)
+})
+
 module.exports = router;
