@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const objectId = require("joi-objectid")(Joi);
+
 
 
 const departmentSchema = new mongoose.Schema({
@@ -23,7 +23,7 @@ const Department = mongoose.model("department", departmentSchema);
 function validateDepartment(department) {
   const schema = Joi.object({
     name: Joi.string().max(50).required(),
-    managerId: objectId().required(),
+    managerId: Joi.objectId().required(),
   });
   return schema.validate(department);
 }

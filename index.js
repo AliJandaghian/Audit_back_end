@@ -1,3 +1,5 @@
+const Joi = require("joi");
+Joi.objectId = require("joi-objectid")(Joi);
 const debug = require('debug')('app:startup')
 const helmet = require('helmet')
 const defects = require('./routes/defects')

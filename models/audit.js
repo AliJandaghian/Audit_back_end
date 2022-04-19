@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const objectId = require("joi-objectid")(Joi);
+
 
 const auditSchema = new mongoose.Schema({
   auditSetting: {
@@ -58,9 +58,9 @@ const Audit = mongoose.model("audit", auditSchema);
 
 function validateAudit(audit) {
   const schema = Joi.object({
-    auditSettingId: objectId().required(),
-    machineId: objectId().required(),
-    defectIds: Joi.array().items(objectId()),
+    auditSettingId: Joi.objectId().required(),
+    machineId: Joi.objectId().required(),
+    defectIds: Joi.array().items(Joi.objectId()),
   });
 
   return schema.validate(audit);
