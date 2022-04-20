@@ -1,6 +1,5 @@
 
 const error = require("./middleware/error");
-
 require("express-async-errors");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
@@ -14,7 +13,6 @@ const auditSettings = require("./routes/auditSettings");
 const auth = require("./routes/auth");
 const departments = require("./routes/departments");
 const express = require("express");
-const config = require("config");
 
 const app = express();
 
