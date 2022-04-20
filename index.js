@@ -1,3 +1,4 @@
+require('express-async-errors')
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const debug = require('debug')('app:startup')
@@ -27,7 +28,9 @@ app.use('/api/audits', audits)
 require('./startup/db')()
 
 
-
+app.use((err,req,res,next)=>{
+    res.status(500).send('Somthing Failed')
+})
 
 
 
