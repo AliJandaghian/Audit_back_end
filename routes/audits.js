@@ -15,6 +15,7 @@ const { parseISO } = require("date-fns");
 const router = express.Router();
 
 router.get("/:settingName/:id", [auth, validateObjectId], async (req, res) => {
+  throw new Error('Could not get audit');
   const audit = await Audit.findById(req.params.id);
   if (!audit) return res.status(404).send("No audit found with given ID");
   res.send(audit);

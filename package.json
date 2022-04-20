@@ -33,6 +33,7 @@
     "mongoose": "^6.2.8",
     "npm": "^8.5.5",
     "underscore": "^1.13.2",
-    "winston": "^3.7.2"
+    "winston": "^3.7.2",
+    "winston-mongodb": "^5.0.7"
   }
 }
