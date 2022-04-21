@@ -21,6 +21,10 @@ const logger = createLogger({
       handleExceptions: true,
       handleRejections: true,
     }),
+    new winston.transports.Console({
+      level : 'debug',
+      format: format.combine(format.colorize(), format.simple()),
+    }),
     new winston.transports.MongoDB({
       db: config.get("db"),
       level: "error",
