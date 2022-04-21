@@ -6,12 +6,12 @@ const { combine, timestamp, printf } = format;
 const config = require("config");
 
 const logger = createLogger({
-  level: "error",
+  level: "info",
   format: combine(
     format.errors({ stack: true }),
     timestamp(),
-    printf(({ level, timestamp, stack }) => {
-      return `${timestamp} ${level}: ${stack}`;
+    printf(({ level, timestamp, message, stack }) => {
+      return `${timestamp} ${level}: ${message} - ${stack}`;
     }),
     format.metadata()
   ),
