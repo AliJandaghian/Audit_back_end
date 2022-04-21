@@ -1,8 +1,8 @@
-
 const error = require("./middleware/error");
-require("express-async-errors");
+
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
+
 const debug = require("debug")("app:startup");
 const helmet = require("helmet");
 const defects = require("./routes/defects");
@@ -17,6 +17,8 @@ const express = require("express");
 const app = express();
 
 app.use(express.json());
+require("./startup/logging");
+
 
 
 
