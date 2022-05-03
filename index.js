@@ -9,5 +9,5 @@ require('./startup/routes')(app)
 require("./startup/db")();
 require('./startup/config')()
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3300;
 app.listen(port, () => logger.log({level: 'info', message:`Listeting to port ${port} ...`}));

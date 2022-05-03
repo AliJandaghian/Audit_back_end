@@ -6,10 +6,12 @@ const audits = require("../routes/audits");
 const users = require("../routes/users");
 const auditSettings = require("../routes/auditSettings");
 const auth = require("../routes/auth");
+const cors = require('cors')
 const departments = require("../routes/departments");
 
 module.exports = function (app) {
   app.use(express.json());
+  app.use(cors())
   app.use("/api/auth", auth);
   app.use("/api/defects", defects);
   app.use("/api/users", users);
