@@ -22,7 +22,7 @@ router.get("/:settingName/:id", [auth, validateObjectId], async (req, res) => {
 
 router.get(
   "/:settingId",
-  [auth, manager, validateObjectId],
+  [auth, validateObjectId],
   async (req, res) => {
     const settingId = req.params.settingId;
     const auditSetting = await AuditSetting.findById(settingId);
