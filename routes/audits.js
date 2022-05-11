@@ -10,7 +10,7 @@ const manager = require("../middleware/manager");
 const validate = require("../middleware/validate");
 const endOfDay = require("date-fns/endOfDay");
 const startOfDay = require("date-fns/startOfDay");
-const { parseISO } = require("date-fns");
+
 
 const router = express.Router();
 
@@ -30,10 +30,10 @@ router.get(
       return res.status(404).send("No audit found with given setting ID");
 
     let startDate = req.query.startDate
-      ? parseISO(req.query.startDate)
+      ? new Date(req.query.startDate)
       : auditSetting.startDate;
 
-    let endDate = req.query.endDate ? parseISO(req.query.endDate) : new Date();
+    let endDate = req.query.endDate ? new Date(req.query.endDate) : new Date();
     const audits = await Audit.find({
       auditSetting: settingId,
       auditDate: {
