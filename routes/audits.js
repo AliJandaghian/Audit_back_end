@@ -31,7 +31,7 @@ router.get(
 
     let startDate = req.query.startDate
       ? new Date(req.query.startDate)
-      : auditSetting.startDate;
+      : new Date(auditSetting.startDate);
 
     let endDate = req.query.endDate ? new Date(req.query.endDate) : new Date();
     const audits = await Audit.find({
@@ -77,7 +77,7 @@ router.post("/", [auth, validate(validateAudit)], async (req, res) => {
 });
 
 router.put(
-  "/:settingId/:id",
+  "/:id",
   [auth, validateObjectId, validate(validateAudit)],
   async (req, res) => {
     const auditSetting = await AuditSetting.findById(req.body.auditSettingId);
