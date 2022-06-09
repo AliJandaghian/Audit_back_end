@@ -47,6 +47,8 @@ userSchema.methods.generateAuthToken = function () {
     {
       _id: this._id,
       email: this.email,
+      name:this.name,
+      department: this.department,
       isAuditor: this.isAuditor,
       isManager: this.isManager,
       isAdmin: this.isAdmin,
