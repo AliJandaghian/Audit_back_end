@@ -17,7 +17,7 @@ router.get("/me", auth, async (req, res) => {
 router.get("/", [auth, admin], async (req, res) => {
   const users = await User.find().sort({ name: 1 });
   res.send(
-    _.map(users, _.partialRight(_.pick, ["_id", "name", "email", "department"]))
+    _.map(users, _.partialRight(_.pick, ["_id", "name", "email", "department","isManager"]))
   );
 });
 
