@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-
-
 const departmentSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -10,10 +8,11 @@ const departmentSchema = new mongoose.Schema({
     required: true,
     maxlength: 50,
   },
-
   manager: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref : 'User',
+    type: new mongoose.Schema({
+      name: Joi.string().max(50).required(),
+    }),
+    ref: "User",
     required: true,
   },
 });

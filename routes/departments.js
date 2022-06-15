@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   res.send(departments);
 });
 
-router.get("/:id",  validateObjectId, async (req, res) => {
+router.get("/:id", validateObjectId, async (req, res) => {
   const department = await Department.findById(req.params.id);
   if (!department)
     return res.status(404).send("No department found with given Id");
@@ -36,7 +36,7 @@ router.post(
 
     department = new Department({
       name: req.body.name,
-      manager: req.body.managerId,
+      manager: { _id: req.body.managerId, name: manager.name },
     });
 
     await department.save();
@@ -46,7 +46,7 @@ router.post(
 
 router.put(
   "/:id",
-  [auth, admin,validateObjectId, validate(validateDepartment)],
+  [auth, admin, validateObjectId, validate(validateDepartment)],
   async (req, res) => {
     let department = await Department.findOne({ name: req.body.name });
     if (department && department._id != req.params.id)
@@ -63,7 +63,7 @@ router.put(
       req.params.id,
       {
         name: req.body.name,
-        manager: req.body.managerId,
+        manager: { _id: req.body.managerId, name: manager.name },
       },
       { new: true }
     );
@@ -74,11 +74,11 @@ router.put(
   }
 );
 
-router.delete('/:id',[auth,admin,validateObjectId], async(req,res)=>{
+router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
   const department = await Department.findByIdAndDelete(req.params.id);
   if (!department)
     return res.status(404).send("No department found with given Id");
-  res.send(department)
-})
+  res.send(department);
+});
 
 module.exports = router;
