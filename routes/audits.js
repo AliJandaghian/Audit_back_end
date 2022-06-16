@@ -57,12 +57,12 @@ router.post("/", [auth, validate(validateAudit)], async (req, res) => {
   const defectIds = req.body.defectIds;
   let defects = [];
   if (defectIds)
-    defectIds.forEach(async (itm) => {
+    for (const itm of defectIds) {
       const defect = await Defect.findById(itm);
       if (!defect)
         return res.status(400).send("No defect found with given defect ID");
       defects.push({ _id: defect._id, name: defect.name });
-    });
+    };
 
   const user = await User.findOne({ email: req.user.email });
 
@@ -91,12 +91,12 @@ router.put(
     const defectIds = req.body.defectIds;
     let defects = [];
     if (defectIds)
-      defectIds.forEach(async (itm) => {
+    for (const itm of defectIds) {
         const defect = await Defect.findById(itm);
         if (!defect)
           return res.status(400).send("No defect found with given defect ID");
         defects.push({ _id: defect._id, name: defect.name });
-      });
+      };
 
     const user = await User.findOne({ email: req.user.email });
 
