@@ -30,15 +30,15 @@ router.get(
       return res.status(404).send("No audit found with given setting ID");
 
     let startDate = req.query.startDate
-      ? new Date(req.query.startDate)
-      : new Date(auditSetting.startDate);
+      ? req.query.startDate
+      : auditSetting.startDate
 
-    let endDate = req.query.endDate ? new Date(req.query.endDate) : new Date();
+    let endDate = req.query.endDate ? req.query.endDate : new Date();
     const audits = await Audit.find({
       auditSetting: settingId,
       auditDate: {
-        $gte: startOfDay(startDate),
-        $lte: endOfDay(endDate),
+        $gte: startDate,
+        $lte: endDate,
       },
     }).sort({ auditDate: 1 });
     res.send(audits);
